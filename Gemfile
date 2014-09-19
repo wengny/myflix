@@ -8,6 +8,7 @@ gem 'haml-rails'
 gem 'sass-rails'
 gem 'uglifier'
 gem 'jquery-rails'
+#gem 'pg'
 
 group :development do
   gem 'sqlite3'
@@ -24,6 +25,7 @@ end
 
 group :test do
   gem 'database_cleaner', '1.2.0'
+  gem 'shoulda-matchers', require: false
 end
 
 group :production do
