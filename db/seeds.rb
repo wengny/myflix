@@ -30,3 +30,4 @@ Video.create(title: "Monk", description: "Paranoid SF detective.", small_cover_u
 Video.create(title: "Monk", description: "Paranoid SF detective.", small_cover_url: "/tmp/monk.jpg",large_cover_url: "/tmp/monk_large.jpg", category: dramas )
 Video.create(title: "Monk", description: "Paranoid SF detective.", small_cover_url: "/tmp/monk.jpg",large_cover_url: "/tmp/monk_large.jpg", category: dramas )
 
+User.create(email: "hweng@ucsd.edu", full_name: "Huawei Weng", password: "password")
