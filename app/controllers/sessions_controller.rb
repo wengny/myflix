@@ -2,7 +2,7 @@ class SessionsController < ApplicationController
   
   def new 
     # no sign in page if user is logged in
-    redirect_to home_path if logged_in?
+   redirect_to home_path if logged_in?
   end
 
   def create
