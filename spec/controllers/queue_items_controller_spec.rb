@@ -57,10 +57,41 @@ describe QueueItemsController do
         expect(QueueItem.count).to eq(1)
       end
     end
-    
+
     context "with unauthenticated users" do
       it "redirects to the sign in page for unauthenticated users" do
         post :create, video_id: 3
+        expect(response).to redirect_to sign_in_path
+      end
+    end
+  end
+
+  describe "DELETE destroy" do
+    context "with authenticated users" do 
+      let(:alice) {Fabricate(:user)}
+      before {session[:user_id] = alice.id}
+
+      it "redirects to the my queue page" do
+        queue_item = Fabricate(:queue_item)
+        delete :destroy, id: queue_item.id
+        expect(response).to redirect_to my_queue_path
+      end
+      it "deletes the queue item" do
+        queue_item = Fabricate(:queue_item, user:alice)
+        delete :destroy, id: queue_item.id
+        expect(QueueItem.count).to eq(0)
+      end
+      it "does not delete the queue item if the queue item is not in the current user's queue" do
+        bob = Fabricate(:user)
+        queue_item = Fabricate(:queue_item, user:bob)
+        delete :destroy, id: queue_item.id
+        expect(QueueItem.count).to eq(1)
+      end
+    end
+
+    context "with unauthenticated users" do
+      it "redirects to the sign in page for unauthenticated users" do
+        delete :destroy, id: 3
         expect(response).to redirect_to sign_in_path
       end
     end
