@@ -24,6 +24,8 @@ Myflix::Application.routes.draw do
   
   get 'my_queue', to: 'queue_items#index'
 
+  resources :queue_items, only: [:create]
+
   # root to: 'todo#index'
   # resources :todos, only: [:index] do
   #   collection do 
