@@ -5,6 +5,7 @@ describe QueueItem do
   it {should belong_to(:video)}
   it {should belong_to(:user)}
   it {should validate_presence_of(:position)}
+  it {should validate_numericality_of(:position).only_integer}
 
   describe "#video_title" do 
     it "returns the title of the associated video" do 
@@ -38,9 +39,12 @@ describe QueueItem do
       queue_item = Fabricate(:queue_item, video: video)
       expect(queue_item.category_name).to eq('comedy')
     end
+  end
 
+  describe "#category" do
     it "returns category of the video" do
-      cat = Fabricate(:category)
+      cat = Fabricate(:category, name: "comedies")
+      #cat = Fabricate(:category)
       video = Fabricate(:video, category: cat)
       queue_item = Fabricate(:queue_item, video: video)
       expect(queue_item.category).to eq(cat)
