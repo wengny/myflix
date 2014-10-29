@@ -1,27 +1,30 @@
 require 'spec_helper'
 
 describe QueueItemsController do 
+  it_behaves_like "requires sign in" do
+      let(:action) {get :index}
+    end
+
   describe "GET index" do
     it "sets @queue_items to the queue items of the logged in user" do 
       alice = Fabricate(:user)
-      session[:user_id] = alice.id
+      set_current_user(alice)
       queue_item1 = Fabricate(:queue_item, user: alice)
       queue_item2 = Fabricate(:queue_item, user: alice)
       get :index
       expect(assigns(:queue_items)).to match_array([queue_item1, queue_item2])
     end
-
-    it "redirects to the sign in page for unauthenticated users" do
-      get :index
-      expect(response).to redirect_to sign_in_path
-    end
   end
 
   describe "POST create" do
+    it_behaves_like "requires sign in" do
+      let(:action) {post :create, video_id: 3}
+    end
+
     context "with authenticated users" do
       let(:alice) {Fabricate(:user)}
       let(:monk) {Fabricate(:video)}
-      before {session[:user_id] = alice.id}
+      before {set_current_user(alice)}
 
       it "redirects to the my queue page" do
         post :create, video_id: monk.id
@@ -57,19 +60,17 @@ describe QueueItemsController do
         expect(QueueItem.count).to eq(1)
       end
     end
-
-    context "with unauthenticated users" do
-      it "redirects to the sign in page for unauthenticated users" do
-        post :create, video_id: 3
-        expect(response).to redirect_to sign_in_path
-      end
-    end
   end
 
   describe "DELETE destroy" do
+
+    it_behaves_like "requires sign in" do
+      let(:action) {delete :destroy, id: 3}
+    end
+
     context "with authenticated users" do 
       let(:alice) {Fabricate(:user)}
-      before {session[:user_id] = alice.id}
+      before {set_current_user(alice)}
 
       it "redirects to the my queue page" do
         queue_item = Fabricate(:queue_item)
@@ -96,16 +97,16 @@ describe QueueItemsController do
         expect(QueueItem.count).to eq(1)
       end
     end
-
-    context "with unauthenticated users" do
-      it "redirects to the sign in page for unauthenticated users" do
-        delete :destroy, id: 3
-        expect(response).to redirect_to sign_in_path
-      end
-    end
   end
 
   describe "POST update_queue" do
+
+    it_behaves_like "requires sign in" do
+      let(:action) do 
+        post :update_queue, queue_items: [{id: 1, position: 2}, {id: 2, position: 3}]
+      end
+    end
+
     context "with valid inputs" do
       let(:alice) {Fabricate(:user)}
       let(:video) {Fabricate(:video)}
@@ -113,7 +114,7 @@ describe QueueItemsController do
       let(:queue_item2) { Fabricate(:queue_item, user:alice, position: 2, video: video)}
 
       before do
-        session[:user_id] = alice.id
+        set_current_user(alice)
       end
 
       it "redirects to the my queue page" do
@@ -143,7 +144,7 @@ describe QueueItemsController do
       let(:queue_item2) { Fabricate(:queue_item, user:alice, position: 2, video: video)}
 
       before do
-        session[:user_id] = alice.id
+        set_current_user(alice)
       end
 
       it "redirects to the my queue page" do
@@ -161,16 +162,10 @@ describe QueueItemsController do
       end
     end
     
-    context "with unauthenticated users" do
-      it "redirects to the sign in page for unauthenticated users" do
-        post :update_queue, queue_items: [{id: 1, position: 2}, {id: 2, position: 3}]
-        expect(response).to redirect_to sign_in_path
-      end
-    end
     context "with queue items that do not belong to the current user" do
       it "does not change the queue items" do
         alice = Fabricate(:user)
-        session[:user_id] = alice.id
+        set_current_user(alice)
         video = Fabricate(:video)
         bob = Fabricate(:user)
         queue_item1 = Fabricate(:queue_item, user:bob, position: 1, video: video)
