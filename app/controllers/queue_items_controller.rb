@@ -47,7 +47,7 @@ class QueueItemsController < ApplicationController
       params[:queue_items].each do |queue_item_data|
         queue_item = QueueItem.find(queue_item_data["id"])
         # add bang after update_attributes so that if it is not saved, it will raise error and roll back whole transaction.
-        queue_item.update_attributes!(position: queue_item_data["position"]) if queue_item.user == current_user
+        queue_item.update_attributes!(position: queue_item_data["position"], rating: queue_item_data["rating"]) if queue_item.user == current_user
       end
     end
   end
