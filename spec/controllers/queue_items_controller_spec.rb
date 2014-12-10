@@ -4,9 +4,9 @@ describe QueueItemsController do
   it_behaves_like "requires sign in" do
       let(:action) {get :index}
     end
-
+  
   describe "GET index" do
-    it "sets @queue_items to the queue items of the logged in user" do 
+    it "sets @queue_items to the queue items of the logged in user" do
       alice = Fabricate(:user)
       set_current_user(alice)
       queue_item1 = Fabricate(:queue_item, user: alice)

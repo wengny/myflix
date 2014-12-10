@@ -1,6 +1,8 @@
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
 #
+#rake db:reset  ->to drop the database first, then Create the database, load the schema, and initialize with the seed data
+# need restart the app after rake db:reset
 # Examples:
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
@@ -31,6 +33,7 @@ Video.create(title: "Monk", description: "Paranoid SF detective.", small_cover_u
 monk = Video.create(title: "Monk", description: "Paranoid SF detective.", small_cover_url: "/tmp/monk.jpg",large_cover_url: "/tmp/monk_large.jpg", category: dramas )
 
 huawei = User.create(email: "hweng@ucsd.edu", full_name: "Huawei Weng", password: "password")
+kevin = User.create(email: "kevin@gotealeaf.com", full_name: "Kevin Wang", password: "password")
 
 Review.create(user: huawei, video: monk, rating: 5, content: "Very good movie!")
 
@@ -39,3 +42,6 @@ Review.create(user: huawei, video: monk, rating: 1, content: "Bad movie!")
 QueueItem.create(user: huawei, video: monk, position: 1)
 QueueItem.create(user: huawei, video: futurama, position: 2)
 QueueItem.create(user: huawei, video: family_Guy, position: 3)
+QueueItem.create(user: kevin, video: family_Guy, position: 1)
+
+Relationship.create(follower: huawei, leader: kevin)

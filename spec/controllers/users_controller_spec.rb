@@ -10,14 +10,15 @@ describe UsersController do
 
   describe "POST create" do
     context "with valid input" do
+      #require 'pry'; binding.pry
       before do
         post :create, user: Fabricate.attributes_for(:user)
       end
-
+     
       it "creates the user" do
         expect(User.count).to eq(1)
       end
-
+     
       it "redirects to the home page" do
         expect(session[:user_id]).to eq(User.find(1).id)
         expect(response).to redirect_to home_path
