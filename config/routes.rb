@@ -30,7 +30,7 @@ Myflix::Application.routes.draw do
 
   get 'people', to: 'relationships#index'
 
-  resources :relationships, only: [:destroy]
+  resources :relationships, only: [:create, :destroy]
 
   # root to: 'todo#index'
   # resources :todos, only: [:index] do
