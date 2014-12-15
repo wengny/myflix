@@ -15,6 +15,7 @@ class UsersController < ApplicationController
 
     if @user.save
       session[:user_id] = @user.id
+      AppMailer.send_welcome_email(@user).deliver
       redirect_to home_path, notice: 'You are registered!'
     else
       render :new
