@@ -13,6 +13,7 @@ gem 'bcrypt-ruby'
 gem 'bootstrap_form'
 gem 'fabrication'
 gem 'faker'
+gem 'sidekiq'
 
 group :development do
   gem 'sqlite3'
