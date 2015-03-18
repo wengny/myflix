@@ -14,6 +14,8 @@ gem 'bootstrap_form'
 gem 'fabrication'
 gem 'faker'
 gem 'sidekiq'
+gem 'omniauth'
+gem 'omniauth-twitter'
 
 group :development do
   gem 'sqlite3'

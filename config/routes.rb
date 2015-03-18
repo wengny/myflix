@@ -37,6 +37,8 @@ Myflix::Application.routes.draw do
 
   resources :invitations, only: [:new, :create]
 
+  #get '/auth/:provider/callback', to: 'sessions#create'
+
   # root to: 'todo#index'
   # resources :todos, only: [:index] do
   #   collection do 
